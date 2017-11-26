@@ -10,7 +10,10 @@ import (
 	"github.com/labstack/echo/middleware"
 )
 
-const serverPort = 8111
+const (
+	serverPort = 8111
+	empty      = ""
+)
 
 func main() {
 	e := echo.New()
@@ -32,9 +35,12 @@ func registerRoutes(e *echo.Echo) {
 		return c.String(http.StatusOK, "Here we sell 5 products. Wanna register to find out?")
 	})
 
+	// Login
+	e.POST(routes.EndpointLogin, routes.Login)
+
 	// Users
-	e.GET(routes.EndpointGetUsers, routes.GetUsers)
-	e.POST(routes.EndpointCreateUser, routes.CreateUser)
-	e.PUT(routes.EndpointUpdateUser, routes.UpdateUser)
-	e.DELETE(routes.EndpointDeleteUser, routes.DeleteUser)
+	routes.JWTRoute(e, routes.EndpointGetUsers).GET(empty, routes.GetUsers)
+	routes.JWTRoute(e, routes.EndpointCreateUser).POST(empty, routes.CreateUser)
+	routes.JWTRoute(e, routes.EndpointUpdateUser).PUT(empty, routes.UpdateUser)
+	routes.JWTRoute(e, routes.EndpointDeleteUser).DELETE(empty, routes.DeleteUser)
 }
