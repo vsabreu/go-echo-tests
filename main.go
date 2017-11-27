@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/vsabreu/go-echo-tests/routes"
@@ -11,17 +10,22 @@ import (
 )
 
 const (
-	serverPort = 8111
+	serverPort = ":8111"
 	empty      = ""
 )
 
 func main() {
 	e := echo.New()
 
+	configureEcho(e)
 	registerMiddlewares(e)
 	registerRoutes(e)
 
-	e.Logger.Fatal(e.Start(fmt.Sprintf(":%d", serverPort)))
+	e.Logger.Fatal(e.Start(serverPort))
+}
+
+func configureEcho(e *echo.Echo) {
+	e.HideBanner = true
 }
 
 func registerMiddlewares(e *echo.Echo) {
