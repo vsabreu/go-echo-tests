@@ -17,11 +17,12 @@ func Login(c echo.Context) error {
 	pass := c.FormValue("passphrase")
 
 	if user == "george" && pass == "harrison" {
+		exp := time.Now().Add(TokenDuration)
 		claims := &jwtCustomClaims{
 			"George Harrison",
 			true,
 			jwt.StandardClaims{
-				ExpiresAt: time.Now().Add(TokenDuration).Unix(),
+				ExpiresAt: exp.Unix(),
 			},
 		}
 
@@ -31,8 +32,18 @@ func Login(c echo.Context) error {
 			return err
 		}
 
+		c.SetCookie(createCookie(t, exp))
 		return c.JSON(http.StatusOK, echo.Map{"token": t})
 	}
 
 	return echo.ErrUnauthorized
+}
+
+func createCookie(t string, exp time.Time) *http.Cookie {
+	c := new(http.Cookie)
+	c.Name = "token"
+	c.Value = t
+	c.Expires = exp
+	c.HttpOnly = true
+	return c
 }

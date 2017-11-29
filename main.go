@@ -1,8 +1,6 @@
 package main
 
 import (
-	"net/http"
-
 	"github.com/vsabreu/go-echo-tests/routes"
 
 	"github.com/labstack/echo"
@@ -18,6 +16,7 @@ func main() {
 	e := echo.New()
 
 	configureEcho(e)
+	configureStatic(e)
 	registerMiddlewares(e)
 	registerRoutes(e)
 
@@ -28,16 +27,17 @@ func configureEcho(e *echo.Echo) {
 	e.HideBanner = true
 }
 
+func configureStatic(e *echo.Echo) {
+	e.File("/", "public/index.html")
+	e.Static("/assets", "assets")
+}
+
 func registerMiddlewares(e *echo.Echo) {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 }
 
 func registerRoutes(e *echo.Echo) {
-	// Index
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Here we sell 5 products. Wanna register to find out?")
-	})
 
 	// Login
 	e.POST(routes.EndpointLogin, routes.Login)
