@@ -12,15 +12,17 @@ function login() {
     data.append("username", username);
     data.append("passphrase", passphrase);
 
-    makeRequest("/login", data);
+    makeRequest("POST", "/login", data);
 }
 
-function makeRequest(endpoint, data) {
+function makeRequest(method, endpoint, data, fn) {
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', endpoint, true);
+    xhr.open(method, endpoint, true);
     xhr.onload = function () {
-        // do something to response
-        console.log(this.responseText);
-    };
+        let rs = JSON.parse(this.responseText);
+        if (rs.token) {
+            document.querySelector(".hid").classList.toggle("hid");
+        }
+    }
     xhr.send(data);
 }

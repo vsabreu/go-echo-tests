@@ -25,8 +25,9 @@ func JWTRoute(e *echo.Echo, endpoint string) *echo.Group {
 	r := e.Group(endpoint)
 	r.Use(middleware.JWTWithConfig(
 		middleware.JWTConfig{
-			Claims:     &jwtCustomClaims{},
-			SigningKey: JWTSecret,
+			Claims:      &jwtCustomClaims{},
+			SigningKey:  JWTSecret,
+			TokenLookup: "cookie:token",
 		}))
 
 	return r

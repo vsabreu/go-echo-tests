@@ -33,7 +33,7 @@ func Login(c echo.Context) error {
 		}
 
 		c.SetCookie(createCookie(t, exp))
-		return c.JSON(http.StatusOK, "")
+		return c.JSON(http.StatusOK, echo.Map{"token": t})
 	}
 
 	return echo.ErrUnauthorized
@@ -41,8 +41,9 @@ func Login(c echo.Context) error {
 
 func createCookie(t string, exp time.Time) *http.Cookie {
 	c := new(http.Cookie)
-	c.Name = "goecho_jwttoken"
+	c.Name = "token"
 	c.Value = t
 	c.Expires = exp
+	c.HttpOnly = true
 	return c
 }
