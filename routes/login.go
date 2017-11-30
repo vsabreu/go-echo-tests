@@ -8,8 +8,10 @@ import (
 	"github.com/labstack/echo"
 )
 
-// EndpointLogin holds Login endpoint
-const EndpointLogin = "/login"
+const (
+	// EndpointLogin holds Login endpoint
+	EndpointLogin = "/login"
+)
 
 // Login logs an user in (or not!)
 func Login(c echo.Context) error {

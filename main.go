@@ -16,8 +16,8 @@ func main() {
 	e := echo.New()
 
 	configureEcho(e)
-	configureStatic(e)
 	registerMiddlewares(e)
+	configureStatic(e)
 	registerRoutes(e)
 
 	e.Logger.Fatal(e.Start(serverPort))
@@ -35,6 +35,7 @@ func configureStatic(e *echo.Echo) {
 func registerMiddlewares(e *echo.Echo) {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	e.Use(middleware.CSRF())
 }
 
 func registerRoutes(e *echo.Echo) {
