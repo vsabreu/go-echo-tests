@@ -43,9 +43,14 @@ func registerRoutes(e *echo.Echo) {
 	// Login
 	e.POST(routes.EndpointLogin, routes.Login)
 
+	// Admin Group
+	ag := routes.JWTRoute(e, "/admin")
+	ag.File("/users", "public/admin/users.html")
+
 	// Users
-	routes.JWTRoute(e, routes.EndpointGetUsers).GET(empty, routes.GetUsers)
-	routes.JWTRoute(e, routes.EndpointCreateUser).POST(empty, routes.CreateUser)
-	routes.JWTRoute(e, routes.EndpointUpdateUser).PUT(empty, routes.UpdateUser)
-	routes.JWTRoute(e, routes.EndpointDeleteUser).DELETE(empty, routes.DeleteUser)
+	ug := routes.JWTRoute(e, "/users")
+	ug.GET(empty, routes.GetUsers)
+	ug.POST(empty, routes.CreateUser)
+	ug.PUT("/:id", routes.UpdateUser)
+	ug.DELETE("/:id", routes.DeleteUser)
 }

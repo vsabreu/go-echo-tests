@@ -8,20 +8,6 @@ import (
 	"github.com/vsabreu/go-echo-tests/models"
 )
 
-const (
-	// EndpointGetUsers holds GetUsers endpoint
-	EndpointGetUsers = "/users"
-
-	// EndpointCreateUser holds CreateUser endpoint
-	EndpointCreateUser = "/users"
-
-	// EndpointUpdateUser holds UpdateUser endpoint
-	EndpointUpdateUser = "/users/:id"
-
-	// EndpointDeleteUser holds DeleteUser endpoint
-	EndpointDeleteUser = "/users/:id"
-)
-
 var (
 	users    map[int]*models.User
 	usersSeq int
@@ -33,7 +19,12 @@ func init() {
 
 // GetUsers retrieves all users
 func GetUsers(c echo.Context) error {
-	return c.JSON(http.StatusOK, users)
+	u := []*models.User{}
+	for _, v := range users {
+		u = append(u, v)
+	}
+
+	return c.JSON(http.StatusOK, u)
 }
 
 // CreateUser creates a new user

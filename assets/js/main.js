@@ -17,14 +17,7 @@ function login() {
 }
 
 function goToRestricted() {
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", "/users", true);
-    console.log(getCookieValue("_csrf"));
-    xhr.setRequestHeader("X-CSRF-Token", getCookieValue("_csrf"));
-    xhr.onload = function () {
-        alert(this.responseText);
-    }
-    xhr.send(null);
+    location.href="/admin/users";
 }
 
 function makeRequest(method, endpoint, data, fn) {
