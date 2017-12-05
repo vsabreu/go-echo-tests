@@ -20,9 +20,9 @@ type jwtCustomClaims struct {
 	jwt.StandardClaims
 }
 
-// JWTRoute returns a new Echo Group with a given endpoint configured
-func JWTRoute(e *echo.Echo, endpoint string) *echo.Group {
-	r := e.Group(endpoint)
+// JWTGroup returns a new Echo Group with a given endpoint configured
+func JWTGroup(e *echo.Echo, prefix string) *echo.Group {
+	r := e.Group(prefix)
 
 	r.Use(middleware.JWTWithConfig(
 		middleware.JWTConfig{

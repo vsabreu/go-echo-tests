@@ -44,11 +44,11 @@ func registerRoutes(e *echo.Echo) {
 	e.POST(routes.EndpointLogin, routes.Login)
 
 	// Admin Group
-	ag := routes.JWTRoute(e, "/admin")
+	ag := routes.JWTGroup(e, "/admin")
 	ag.File("/users", "public/admin/users.html")
 
 	// Users
-	ug := routes.JWTRoute(e, "/users")
+	ug := routes.JWTGroup(e, "/users")
 	ug.GET(empty, routes.GetUsers)
 	ug.POST(empty, routes.CreateUser)
 	ug.PUT("/:id", routes.UpdateUser)
